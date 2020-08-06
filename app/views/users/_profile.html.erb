@@ -10,8 +10,37 @@
 		<th>introduction</th>
 		<th><%= user.introduction %></th>
 	</tr>
+	<tr>
+		<th>follows</th>
+		<th>
+			<%= link_to follows_user_path(user.id) do %>
+				<%= user.followings.count %>
+			<% end %>
+		</th>
+	</tr>
+	<tr>
+		<th>followers</th>
+		<th>
+			<%= link_to followers_user_path(user.id) do %>
+				<%= user.followers.count %>
+			<% end %>
+		</th>
+	</tr>
+	<th>
+		<% if user.followed_by?(current_user) %>
+		    <%= link_to user_relationships_path(user.id), method: :delete do %>
+		 	   <button class="btn btn-danger col-xs-12" onclick="toggleOff()">フォローを外す</button>
+			<% end %>
+		<% else %>
+		    <%= link_to user_relationships_path(user.id), method: :post do %>
+	    		<button class="btn btn-success col-xs-12" onclick="toggleOn()">フォローする</button>
+ 	        <% end %>
+        <% end %>
+	</th>
 </table>
 
 <div class="row">
-	<%= link_to '', edit_user_path(user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>
+	<%= link_to edit_user_path(user), class: "col-xs-12 btn btn-default" do %>
+		<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+	<% end %>
 </div>
